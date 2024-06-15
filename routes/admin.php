@@ -198,6 +198,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         Route::post('update/{id?}', [OrderController::class, 'orderUpdateOrAdd'])->name('orderUpdateOrAdd');
         // Delete a room type
         Route::get('delete_order/{id}', [OrderController::class, 'orderDelete'])->name('orderDelete');
+        Route::get('get-products/{id}', [OrderController::class, 'get_products']);
        
     });
 

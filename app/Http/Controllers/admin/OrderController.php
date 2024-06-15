@@ -14,7 +14,7 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItmes;
-
+use App\Models\BottleThali;
 
 
 class OrderController extends Controller
@@ -24,73 +24,78 @@ class OrderController extends Controller
     public function list()
     {
         $data['title'] = 'List';
-        $data['bookings'] = Booking::select('bookings.*','users.name','room_types.type')
-        ->leftJoin('users','users.id','bookings.customer_id')
-        ->leftJoin('room_types','room_types.id','bookings.room_type')
-        ->leftJoin('rooms','rooms.id','bookings.room_id')
-        ->where('created_by',Auth::user()->id)
+        $data['orders'] = Order::select(
+            'orders.*',
+            'bottle_thalis_bottle.name as bottle_name',
+            'bottle_thalis_thali.name as thali_name'
+        )
+        ->leftJoin('bottle_thalis as bottle_thalis_bottle', 'bottle_thalis_bottle.id', 'orders.bottle_id')
+        ->leftJoin('bottle_thalis as bottle_thalis_thali', 'bottle_thalis_thali.id', 'orders.thali_id')
+        ->where('orders.created_by', Auth::user()->id)
         ->get();
-        return view('admin.pages.booking.list', $data);
+        return view('admin.pages.order.list', $data);
     }
 
     // Edit a specific Room Thali or add a new one
     public function UpdateOrAdd()
     {
-        $data['title'] = 'Add New Booking';
+        $data['title'] = 'Add New order';
         $data['users'] = User::where('user_type','customer')->get();
         $data['roomTypes'] = RoomType::get();
         $data['Room'] = Room::get();
+        $data['bottle'] = BottleThali::where('type','bottle')->get();
+        $data['thalis'] = BottleThali::where('type','thali')->get();
 
         // dd($data['booking']);
 
-        return view('admin.pages.booking.add', $data);
+        return view('admin.pages.order.add', $data);
     }
 
     // Edit a specific Room Thali or add a new one
-    public function bookingEdit($id = null)
+    public function orderEdit($id = null)
     {
         $data['title'] = $id ? 'Edit Room Thali' : 'Add New Room Thali';
-        $data['users'] = User::where('user_type','customer')->get();
-        $data['roomTypes'] = RoomType::get();
-        $data['Room'] = Room::get();
-        $data['booking'] = $id ? Booking::find($id) : null;
+        $data['bottle'] = BottleThali::where('type','bottle')->get();
+        $data['thalis'] = BottleThali::where('type','thali')->get();
+        $data['order'] = $id ? Order::find($id) : null;
 
         // dd($data['booking']);
 
-        return view('admin.pages.booking.add', $data);
+        return view('admin.pages.order.add', $data);
     }
 
     // Update or add a new Room Thali
-    public function bookingUpdateOrAdd(Request $request, $id = null)
+    public function orderUpdateOrAdd(Request $request, $id = null)
     {
  
 
         $data = [
-            'customer_id' => $request->customer_id,
-            'room_type' => $request->room_type,
-            'room_id' => $request->room_id,
-            'adults' => $request->adults,
-            'child' => $request->child,
-            'price' => $request->price,
-            'checkin_date' => $request->checkin_date,
-            'checkout_date' => $request->checkout_date,
-            'payment_type' => $request->payment_type,
-            'no_of_rooms' => $request->no_of_rooms,
-            'due_amount' => $request->due_amount,
+            'date' => $request->date,
+            'bottle_id' => $request->bottle_id,
+            'bottle_price' => $request->bottle_price,
+            'bottle_quantity' => $request->bottle_quantity,
+            'bottle_total' => $request->bottle_total,
+            'thali_id' => $request->thali_id,
+            'thali_price' => $request->thali_price,
+            'thali_quantity' => $request->thali_quantity,
+            'thali_total' => $request->thali_total,
+            'sub_total' => $request->sub_total,
+            'bottle_minus_price' => $request->bottle_minus_price,
+            'grand_total' => $request->grand_total,
             'created_by' => Auth::user()->id
         ];
 
         if ($id) {
-            $booking = Booking::find($id);
-            if ($booking) {
-                $booking->update($data);
-                $message = 'Booking updated successfully';
+            $Order = Order::find($id);
+            if ($Order) {
+                $Order->update($data);
+                $message = 'Order updated successfully';
             } else {
-                $message = 'Booking not found';
+                $message = 'Order not found';
             }
         } else {
-         Booking::create($data);
-            $message = 'Booking added successfully';
+         Order::create($data);
+            $message = 'Order added successfully';
         }
 
         $request->session()->flash('success', $message);
@@ -98,11 +103,11 @@ class OrderController extends Controller
     }
 
     // Delete a specific Room Thali
-    public function bookingDelete(Request $request, $id)
+    public function orderDelete(Request $request, $id)
     {
-        $booking = Booking::find($id);
-        if ($booking) {
-            $booking->delete();
+        $Order = Order::find($id);
+        if ($Order) {
+            $Order->delete();
             $message = 'Room Thali deleted successfully';
         } else {
             $message = 'Room Thali not found';
@@ -110,6 +115,22 @@ class OrderController extends Controller
 
         $request->session()->flash('success', $message);
         return redirect()->back();
+    }
+
+    public function get_products($type)
+    {
+        $bottlethalis = BottleThali::where('type',$type)->get();
+        $products = [];
+        foreach ($bottlethalis as $key => $value) {
+            $products [] = array(
+                'id' => $value->id, 
+                'name' => $value->name, 
+                'price' =>$value->price
+            );
+        }
+    
+        return response()->json($products ?? []);
+
     }
 
 }

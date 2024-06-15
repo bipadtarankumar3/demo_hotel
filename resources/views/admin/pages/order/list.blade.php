@@ -15,7 +15,7 @@
                     {{-- <h5 class="card-header">Publish</h5> --}}
                     <div class="card-body">
                         <div class="float-right my-2 text-right" style="text-align: right">
-                            <a href="{{URL::to('admin/order/add-booking')}}"><button type="button" class="btn btn-warning">Add booking</button></a>
+                            <a href="{{URL::to('admin/order/add-order')}}"><button type="button" class="btn btn-warning">Add order</button></a>
                          
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -24,36 +24,44 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Action</th>
-                                        <th>Customer</th>
-                                        <th>Room</th>
-                                        <th>Price</th>
-                                        <th>Check In </th>
-                                        <th>Check Out</th>
-                                        <th>Payment Type</th>
-                                        <th>Due amount</th>
-                                        {{-- <th>Added By</th> --}}
+                                        <th>Date</th>
+                                        <th>Bottle</th>
+                                        <th>Bottle Price</th>
+                                        <th>Bottle Quantity</th>
+                                        <th>Bottle Total</th>
+                                        <th>Thali</th>
+                                        <th>Thali Price</th>
+                                        <th>Thali Quantity</th>
+                                        <th>Thali Total</th>
+                                        <th>Sub Total</th>
+                                        <th>Bottle Minus Price</th>
+                                        <th>Grand Total</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($bookings as $booking)
+                                    @foreach ($orders as $order)
                                         <tr>
-                                            <td>{{ $booking->id }}</td>
+                                            <td>{{ $order->id }}</td>
                                             <td>
-                                                <a href="{{ URL::to('admin/order/edit_booking', $booking->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="{{ URL::to('admin/order/delete_booking', $booking->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
+                                                <a href="{{ URL::to('admin/order/edit_order', $order->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a href="{{ URL::to('admin/order/delete_order', $order->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
                                             </td>
-                                            <td>{{ $booking->name }}</td>
-                                            <td>{{ $booking->type }}</td>
-                                            <td>{{ $booking->price }}</td>
-                                            <td>{{ $booking->checkin_date }}</td>
-                                            <td>{{ $booking->checkout_date }}</td>
-                                            <td>{{ $booking->payment_type }}</td>
-                                            <td>{{ $booking->due_amount }}</td>
-                                            {{-- <td>{{ $booking->created_by }}</td> --}}
-                                            <td>{{ $booking->created_at }}</td>
-                                            <td>{{ $booking->updated_at }}</td>
+                                            <td>{{ $order->date }}</td>
+                                            <td>{{ $order->bottle_name }}</td>
+                                            <td>{{ $order->bottle_price }}</td>
+                                            <td>{{ $order->bottle_quantity }}</td>
+                                            <td>{{ $order->bottle_total }}</td>
+                                            <td>{{ $order->thali_name }}</td>
+                                            <td>{{ $order->thali_price }}</td>
+                                            <td>{{ $order->thali_quantity }}</td>
+                                            <td>{{ $order->thali_total }}</td>
+                                            <td>{{ $order->sub_total }}</td>
+                                            <td>{{ $order->bottle_minus_price }}</td>
+                                            <td>{{ $order->grand_total }}</td>
+                                            <td>{{ $order->created_at }}</td>
+                                            <td>{{ $order->updated_at }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

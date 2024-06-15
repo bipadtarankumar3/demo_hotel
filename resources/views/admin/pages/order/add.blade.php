@@ -7,121 +7,101 @@
 
     </h6>
 
-    <form action="{{ isset($booking) ? url('admin/booking/update/' . $booking->id) : url('admin/booking/submit-booking') }}" method="POST" enctype="multipart/form-data" class="browser-default-validation">
+    <form action="{{ isset($order) ? url('admin/order/update/' . $order->id) : url('admin/order/submit-order') }}" method="POST" enctype="multipart/form-data" class="browser-default-validation">
         @csrf
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <h5 class="card-header">{{ isset($booking) ? 'Edit Booking' : 'Add Booking' }}</h5>
+                    <h5 class="card-header">{{ isset($order) ? 'Edit order' : 'Add order' }}</h5>
                     <div class="card-body">
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <select name="customer_id" id="customer_id" class="form-control">
-                                        <option value="">-- Select Customer --</option>
-                                        @foreach ($users as $item)
-                                            <option value="{{ $item->id }}" {{ isset($booking) && $booking->customer_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="basic-default-name">Customer</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <select name="room_type" id="room_type" class="form-control">
-                                        <option value="">-- Select Room Type --</option>
-                                        @foreach ($roomTypes as $item)
-                                            <option value="{{ $item->id }}" {{ isset($booking) && $booking->room_type == $item->id ? 'selected' : '' }}>{{ $item->type }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="basic-default-name">Room Type</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="date"  value="{{ isset($booking) ? $booking->checkin_date : '' }}" name="checkin_date" class="form-control" id="checkin_date" placeholder="Check In" {{ isset($booking) ? '' : 'required' }}>
-                                    <label for="checkin_date">Check In</label>
-                                   
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="date"  value="{{ isset($booking) ? $booking->checkout_date : '' }}" name="checkout_date" class="form-control" id="checkout_date" placeholder="checkout date" {{ isset($booking) ? '' : 'required' }}>
-                                    <label for="checkout_date">Check Out</label>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="text"   value="{{ isset($booking) ? $booking->adults : '' }}" name="adults"  class="form-control" id="basic-default-name" >
-                                    <label for="basic-default-name"> Adults</label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="text"  value="{{ isset($booking) ? $booking->child : '' }}" name="child"  class="form-control" id="basic-default-name" >
-                                    <label for="basic-default-name"> Children</label>
-                                </div>
-                            </div>
-                        </div>
                       
-                        <div class="row">
-                            
 
-
-                            <div class="col-md-3">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="text" value="{{ isset($booking) ? $booking->no_of_rooms : '' }}" name="no_of_rooms" class="form-control" id="basic-default-name" >
-                                    <label for="basic-default-name">Number Of Rooms</label>
+                        <div id="product-rows">
+                            <!-- Dynamic rows will be appended here -->
+                                <div class="row">
+                                    <dic class="col-md-3">
+                                        <label for="">Date</label>
+                                        <input type="date" name="date" id="date" value="{{ isset($order) ? $order->date : '' }}" class="form-control">
+                                    </dic>
                                 </div>
-                            </div>
-                            
-                            <div class="col-md-3">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <select name="payment_type" id="payment_type" class="form-control">
-                                        <option value="">-- Select Type --</option>
-                                        <option value="Due" {{ isset($booking) && $booking->payment_type == 'Due' ? 'selected' : '' }}>Due</option>
-                                        <option value="Paid" {{ isset($booking) && $booking->payment_type == 'Paid' ? 'selected' : '' }}>Paid</option>
-                                        
+                            <div class="row mb-2">
+                                
+                                <div class="col-md-3">
+                                    <label for="">Bottle List</label>
+                                    <select class="form-control product-select" name="bottle_id" onchange="get_products(this)" data-type="bottle">
+                                        <option value="">Select product type</option>
+                                        @foreach ($bottle as $item)
+                                            <option value="{{$item->id}}" {{ isset($order) && $order->bottle_id == $item->id? 'selected' : '' }} data-price="{{$item->price}}">{{$item->name}}</option>
+                                        @endforeach
                                     </select>
-                                    <label for="basic-default-name">Payment Type</label>
                                 </div>
+                                <div class="col-md-3">
+                                    <label for="">Price</label>
+                                    <input type="text" value="{{ isset($order) ? $order->bottle_price : '' }}" class="form-control bottle-price" name="bottle_price" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="">Quantity</label>
+                                    <input type="number" value="{{ isset($order) ? $order->bottle_quantity : '' }}" class="form-control bottle-quantity" name="bottle_quantity" min="1" onkeyup="updateTotal(this)">
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <label for="">Total</label>
+                                    <input type="text" value="{{ isset($order) ? $order->bottle_total : '' }}" class="form-control bottle-total" name="bottle_total" readonly>
+                                </div>
+                                
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="text" value="{{ isset($booking) ? $booking->price : '' }}" name="price"  class="form-control" id="basic-default-name" >
-                                    <label for="basic-default-name">Price</label>
+                            <div class="row mb-2" >
+                                
+                                <div class="col-md-3">
+                                    <label for="">Thali List</label>
+                                    <select class="form-control thali-select" name="thali_id" onchange="get_products(this)" data-type="thali">
+                                        <option value="">Select product type</option>
+                                        @foreach ($thalis as $item)
+                                            <option value="{{$item->id}}" {{ isset($order) && $order->thali_id == $item->id? 'selected' : '' }} data-price="{{$item->price}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="text" value="{{ isset($booking) ? $booking->due_amount : '' }}" name="due_amount"  class="form-control" id="basic-default-name" >
-                                    <label for="basic-default-name">Due Price</label>
+                                <div class="col-md-3">
+                                    <label for="">Price</label>
+                                    <input type="text" value="{{ isset($order) ? $order->thali_price : '' }}" class="form-control thali-price" name="thali_price" readonly>
                                 </div>
+                                <div class="col-md-3">
+                                    <label for="">Quantity</label>
+                                    <input type="number" value="{{ isset($order) ? $order->thali_quantity : '' }}" class="form-control thali-quantity" name="thali_quantity" onkeyup="updateTotal(this)">
+                                </div>
+                                
+                                <div class="col-md-3">
+                                    <label for="">Total</label>
+                                    <input type="text" value="{{ isset($order) ? $order->thali_total : '' }}" class="form-control thali-total" name="thali_total" readonly>
+                                </div>
+                                
                             </div>
                         </div>
-                        
-
-                        
-
-                       
-
+                        <div class="row mt-3">
+                            <div class="col-md-12 text-right"  style="text-align: right">
+                                <input type="hidden" value="{{ isset($order) ? $order->sub_total : '' }}"  class="form-control subtotal_price" name="sub_total">
+                                <h5>Subtotal: ₹<span id="subtotal">{{ isset($order) ? $order->sub_total : '0.00' }}</span></h5>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12 text-right" style="text-align: right">
+                                <input type="hidden" value="{{ isset($order) ? $order->bottle_minus_price : '' }}"  class="form-control minus_two_bottle_price" name="bottle_minus_price">
+                                <h5> Bottle (-2): ₹<span id="minus_two_bottle">{{ isset($order) ? $order->bottle_minus_price : '0.00' }}</span></h5>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12 text-right" style="text-align: right">
+                                <input type="hidden" value="{{ isset($order) ? $order->grand_total : '' }}"  class="form-control grand_total" name="grand_total">
+                                <h5>Grand total: ₹<span id="grand_total">{{ isset($order) ? $order->grand_total : '0.00' }}</span></h5>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-primary mt-2" type="submit">{{ isset($booking) ? 'Update' : 'Add New' }}</button>
-                                <a href="{{URL::to('admin/booking/list')}}">
-                                     <button class="btn btn-success mt-2" type="button">Back</button>
-                            
+                                <button class="btn btn-primary mt-2" type="submit">{{ isset($order) ? 'Update' : 'Add New' }}</button>
+                                <a href="{{ URL::to('admin/order/list') }}">
+                                    <button class="btn btn-success mt-2" type="button">Back</button>
                                 </a>
-                               
                             </div>
                         </div>
 
@@ -139,42 +119,83 @@
 @section('js')
     
 <script>
-    $(document).ready(function(){
-        // Remove row
-        $(document).on('click', '.remove-row', function(){
-            $(this).closest('tr').remove();
-        });
-    });
+   
 
-
-    function add_more_row() {
-        var newRow = '<tr>' +
-                '<td><input type="text" name="document_text_name[]" class="form-control" placeholder="Name"></td>' +
-                '<td><input type="file" name="document[]" class="form-control"></td>' +
-                '<td><button type="button" class="btn btn-danger waves-effect waves-light remove-row"><i class="fa-solid fa-trash"></i></button></td>' +
-                '</tr>';
-            $(".table_body_row").append(newRow)
+   function get_products(select) {
+        var selectedOption = select.options[select.selectedIndex];
+        var price = selectedOption.getAttribute('data-price');
+        var type = select.getAttribute('data-type');
+        var priceField, quantityField, totalField;
+        
+        if (type === 'bottle') {
+            priceField = select.closest('.row').querySelector('.bottle-price');
+            quantityField = select.closest('.row').querySelector('.bottle-quantity');
+            totalField = select.closest('.row').querySelector('.bottle-total');
+        } else if (type === 'thali') {
+            priceField = select.closest('.row').querySelector('.thali-price');
+            quantityField = select.closest('.row').querySelector('.thali-quantity');
+            totalField = select.closest('.row').querySelector('.thali-total');
+        }
+        
+        if (priceField) {
+            priceField.value = price;
+        }
+        
+        updateTotal(quantityField);
     }
+    
+      
+    function updateTotal(input) {
+        var row = input.closest('.row');
+        var price = parseFloat(row.querySelector('.bottle-price')?.value || row.querySelector('.thali-price')?.value);
+        var quantity = parseInt(row.querySelector('.bottle-quantity')?.value || row.querySelector('.thali-quantity')?.value);
+        var totalField = row.querySelector('.bottle-total') || row.querySelector('.thali-total');
+        
+        if (!isNaN(price) && !isNaN(quantity)) {
+            var total = price * quantity;
+            if (totalField) {
+                totalField.value = total.toFixed(2); // Adjust as needed for formatting
+            }
+        } else {
+            if (totalField) {
+                totalField.value = '';
+            }
+        }
+        
+        // Calculate subtotal
+        calculateSubtotal();
+    }
+    
+    function calculateSubtotal() {
+        var bottleTotal = parseFloat(document.querySelector('.bottle-total').value) || 0;
+        var thaliTotal = parseFloat(document.querySelector('.thali-total').value) || 0;
+        
+        var subtotal = bottleTotal + thaliTotal;
+        $('.subtotal_price').val(subtotal);
+        
+        
+        document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        
+        // Calculate Bottle (-2) total
+        var minusTwoBottleTotal = calculateMinusTwoBottleTotal();
 
-    function remove_row_with_data(get_this,id) {
+        $('.minus_two_bottle_price').val(minusTwoBottleTotal);
+        
+        document.getElementById('minus_two_bottle').textContent = minusTwoBottleTotal.toFixed(2);
+        
+        // Calculate Grand Total
+        var grandTotal = subtotal - minusTwoBottleTotal;
+        $('.grand_total').val(grandTotal);
+        document.getElementById('grand_total').textContent = grandTotal.toFixed(2);
+    }
+    
+    function calculateMinusTwoBottleTotal() {
+        var bottlePrice = parseFloat(document.querySelector('.bottle-price').value) || 0;
 
-        $.ajax({
-            type: "GET",
-            url: "{{URL::to('admin/room/delete_room_images/')}}"+"/"+id,// where you wanna post
-            data: {
-                'id':''
-            },
-            error: function(jqXHR, textStatus, errorMessage) {
-                console.log(errorMessage); // Optional
-            },
-            success: function(data) {
-               
-            } 
-        });
-
-        $(get_this).closest('tr').remove();
-
-
+        // Calculate total after adjustment
+        var minusTwoBottleTotal = 2 * bottlePrice;
+        
+        return minusTwoBottleTotal;
     }
 
 </script>

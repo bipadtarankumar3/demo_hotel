@@ -13,10 +13,20 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('item_id')->nullable();
-            $table->integer('total')->nullable(); 
-            $table->integer('gst')->nullable(); 
-            $table->integer('grand_total')->nullable(); 
+            $table->date('date')->nullable(); 
+            $table->integer('bottle_id')->nullable(); 
+            $table->float('bottle_price')->nullable(); 
+            $table->integer('bottle_quantity')->nullable(); 
+            $table->float('bottle_total')->nullable(); 
+           
+            $table->integer('thali_id')->nullable(); 
+            $table->float('thali_price')->nullable(); 
+            $table->integer('thali_quantity')->nullable(); 
+            
+            $table->float('thali_total')->nullable(); 
+            $table->float('sub_total')->nullable(); 
+            $table->float('bottle_minus_price')->nullable(); 
+            $table->float('grand_total')->nullable(); 
             $table->integer('created_by')->nullable(); 
             $table->timestamps();
             $table->softDeletes();
