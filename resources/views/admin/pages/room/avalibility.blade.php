@@ -8,35 +8,25 @@
     </h6>
 
     <div class="row">
+      <div class="col-md-4">
+        <form action="">
+          <div class="form-floating form-floating-outline mb-4">
+              <select name="room_type" id="room_type" class="form-control" onchange="this.form.submit()">
+                  <option value="">-- Select Room Type --</option>
+                  @foreach ($roomTypes as $item)
+                      <option value="{{ $item->id }}" {{ isset($_GET['room_type']) && $_GET['room_type'] == $item->id ? 'selected' : '' }}>{{ $item->type }}</option>
+                  @endforeach
+              </select>
+              <label for="basic-default-name">Room Type</label>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+    <div class="row">
         <div class="col-md-12">
-            <div class="d-flex align-items-start">
-                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
-                    #322 - 4 Pax Room Dulux Room
-                  </button>
-                  <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">
-                    #321 - 4 Pax Dulux Room
-                  </button>
-                </div>
-                <div class="tab-content" id="v-pills-tabContent" style="width:100%">
-                  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="calendar"></div>
-                        </div>
-                    </div>
-                    
-                  </div>
-                  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="calendar1"></div>
-                        </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-        </div>
+            <div id="calendar"></div>
+      </div>
     </div>
 
 
@@ -45,46 +35,58 @@
 @endsection
 
 @section('js')
-<script>
-    $(document).ready(function() {
-  ShowCalendar();
-});
+  <script>
+      $(document).ready(function() {
+        ShowCalendar();
+      });
 
-var events = [];
-var calendarEl = document.getElementById('calendar');
-var calendarEl1 = document.getElementById('calendar1');
-var calendar = new FullCalendar.Calendar(calendarEl, {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth',
+          events: function(info, successCallback, failureCallback) {
+            var roomType = $('#room_type').val();
+              $.ajax({
+                  url: "{{URL::to('admin/room/fetchEvents')}}",
+                  type: 'GET',
+                  data: { room_type: roomType },
+                  success: function(data) {
+                      successCallback(data);
+                  },
+                  error: function() {
+                      failureCallback();
+                  }
+              });
+          },
+      });
 
-    initialView: 'dayGridMonth',
+      function ShowCalendar() {
+          calendar.render();
+      }
 
-    events: function(info, successCallback, failureCallback ) {
-      successCallback(events);
-    },
+      $("#addEvent").on("click", function() {
+          var event = {
+              customer_id: $("#customerId").val(),
+              room_type: $("#eventName").val(), // Example: using event name as room type
+              room_id: $("#roomId").val(),
+              adults: $("#adults").val(),
+              child: $("#child").val(),
+              price: $("#price").val(),
+              start: $("#fromDate").val(),
+              end: $("#toDate").val(),
+              payment_type: $("#paymentType").val(),
+              no_of_rooms: $("#noOfRooms").val(),
+              due_amount: $("#dueAmount").val(),
+              b_status: $("#bStatus").val(),
+          };
 
-  });
-var calendar1 = new FullCalendar.Calendar(calendarEl1, {
-
-    initialView: 'dayGridMonth',
-
-    events: function(info, successCallback, failureCallback ) {
-      successCallback(events);
-    },
-
-  });
-
-function ShowCalendar() {
-  calendar.render();
-  calendar1.render();
-}
-
-$("#addEvent").on("click", function() {
-  events.push({
-    title: $("#eventName").val(),
-    start: $("#fromDate").val(),
-    end: $("#toDate").val()
-  });
-
-  calendar.refetchEvents();
-});
-</script>
+          $.ajax({
+              url: '/events',
+              type: 'POST',
+              data: event,
+              success: function() {
+                  calendar.refetchEvents();
+              }
+          });
+      });
+  </script>
 @endsection

@@ -26,6 +26,7 @@
                                         <th>ID</th>
                                         <th>Action</th>
                                         <th>Room Type</th>
+                                        <th>Room Name</th>
                                         <th>Bedrooms</th>
                                         <th>Washrooms</th>
                                         <th>Kitchen</th>
@@ -55,6 +56,7 @@
                                                 <a href="{{ URL::to('admin/room/delete_room', $room->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                             <td>{{ $room->room_type }}</td>
+                                            <td>{{ $room->room_name}}</td>
                                             <td><img src="{{ URL::to('public/'.$room->bed_room) }}" alt="Feature Image" width="50"></td>
                                             <td><img src="{{ URL::to('public/'.$room->washroom) }}" alt="Feature Image" width="50"></td>
                                             <td><img src="{{ URL::to('public/'.$room->kitchen) }}" alt="Feature Image" width="50"></td>

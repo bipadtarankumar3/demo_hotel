@@ -12,6 +12,8 @@ use App\Models\RoomAmenities;
 use App\Models\RoomType;
 use App\Models\Room;
 use App\Models\Documents;
+use App\Models\Booking;
+use DB;
 
 class RoomController extends Controller
 {
@@ -173,6 +175,7 @@ class RoomController extends Controller
 
         // Set attributes
         $room->room_type = $request->input('room_type');
+        $room->room_name = $request->input('room_name');
         $room->price = $request->input('price');
         $room->no_of_rooms = $request->input('no_of_rooms');
         $room->minimum_day_stay = $request->input('minimum_day_stay');
@@ -180,8 +183,7 @@ class RoomController extends Controller
         $room->room_size = $request->input('room_size');
         $room->max_adults = $request->input('max_adults');
         $room->max_children = $request->input('max_children');
-        $room->room_amenities = implode(',',$request->room_amenities);
-        $room->import_url = $request->input('import_url');
+        $room->room_amenities = isset($request->room_amenities)?implode(',',$request->room_amenities):null;
         $room->status = $request->input('status');
         $room->user_id = Auth::user()->id;
         // Add other fields here
@@ -294,6 +296,44 @@ class RoomController extends Controller
     public function roomAvalibility()
     {
         $data['title'] = 'Room Management';
+        $data['roomTypes'] = RoomType::where('user_id',Auth::user()->id)->get();
         return view('admin.pages.room.avalibility', $data);
     }
+
+    public function fetchEvents(Request $request)
+    {
+
+        $room_type = $request->query('room_type');
+        
+        if ($room_type) {
+            $bookings = DB::select("
+                SELECT 
+                    bk.id, 
+                    rt.room_name as title, 
+                    bk.checkin_date as start, 
+                    bk.checkout_date as end 
+                FROM 
+                    bookings as bk
+                LEFT JOIN rooms as rt on rt.id = bk.room_id
+                WHERE 
+                    bk.deleted_at IS NULL and bk.room_type = ?
+            ", [$room_type]);
+        } else {
+            $bookings = DB::select("
+                SELECT 
+                    bk.id, 
+                    rt.room_name as title, 
+                    bk.checkin_date as start, 
+                    bk.checkout_date as end 
+                FROM 
+                    bookings as bk
+                LEFT JOIN rooms as rt on rt.id = bk.room_id
+                WHERE 
+                    bk.deleted_at IS NULL
+            ");
+        }
+
+        return response()->json($bookings);
+    }
+
 }

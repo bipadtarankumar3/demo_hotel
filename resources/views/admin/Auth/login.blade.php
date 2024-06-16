@@ -80,12 +80,12 @@
       <!-- Login -->
       <div class="card p-2">
         <!-- Logo -->
-        <div class="app-brand justify-content-center mt-5">
+        {{-- <div class="app-brand justify-content-center mt-5">
           <a href="https://demos.themeselection.com/materio-bootstrap-html-laravel-admin-template-free/demo" class="app-brand-link gap-2">
            
             <span class="app-brand-text demo text-heading fw-semibold"><img src="{{URL::to('public/assets/admin/img/logo/logo.jpg')}}" alt="" height="50px" width="170px"></span>
           </a>
-        </div>
+        </div> --}}
         <!-- /Logo -->
 
         <div class="card-body mt-2">
@@ -109,7 +109,7 @@
                 </div>
               </div>
             </div>
-            <div class="mb-3 d-flex justify-content-between">
+            {{-- <div class="mb-3 d-flex justify-content-between">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="remember-me">
                 <label class="form-check-label" for="remember-me">
@@ -119,7 +119,7 @@
               <a href="forgot-password-basic.html" class="float-end mb-1">
                 <span>Forgot Password?</span>
               </a>
-            </div>
+            </div> --}}
             <div class="mb-3">
               <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
             </div>

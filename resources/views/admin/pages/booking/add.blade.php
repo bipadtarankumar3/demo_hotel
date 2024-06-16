@@ -16,7 +16,7 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-floating form-floating-outline mb-4">
                                     <select name="customer_id" id="customer_id" class="form-control">
                                         <option value="">-- Select Customer --</option>
@@ -27,15 +27,29 @@
                                     <label for="basic-default-name">Customer</label>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-floating form-floating-outline mb-4">
-                                    <select name="room_type" id="room_type" class="form-control">
+                                    <select name="room_type" id="room_type" class="form-control" onchange="getRooms(this.value)">
                                         <option value="">-- Select Room Type --</option>
                                         @foreach ($roomTypes as $item)
                                             <option value="{{ $item->id }}" {{ isset($booking) && $booking->room_type == $item->id ? 'selected' : '' }}>{{ $item->type }}</option>
                                         @endforeach
                                     </select>
                                     <label for="basic-default-name">Room Type</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <select name="room_id" id="room_id" class="form-control">
+                                        <option value="">-- Select Room --</option>
+                                        @if (isset($Rooms))
+                                            @foreach ($Rooms as $item)
+                                                <option value="{{ $item->id }}" {{ isset($booking) && $booking->room_id == $item->id ? 'selected' : '' }}>{{ $item->room_name }}</option>
+                                            @endforeach
+                                        @endif
+                                        
+                                    </select>
+                                    <label for="basic-default-name">Room</label>
                                 </div>
                             </div>
                         </div>
@@ -139,42 +153,24 @@
 @section('js')
     
 <script>
-    $(document).ready(function(){
-        // Remove row
-        $(document).on('click', '.remove-row', function(){
-            $(this).closest('tr').remove();
-        });
-    });
 
-
-    function add_more_row() {
-        var newRow = '<tr>' +
-                '<td><input type="text" name="document_text_name[]" class="form-control" placeholder="Name"></td>' +
-                '<td><input type="file" name="document[]" class="form-control"></td>' +
-                '<td><button type="button" class="btn btn-danger waves-effect waves-light remove-row"><i class="fa-solid fa-trash"></i></button></td>' +
-                '</tr>';
-            $(".table_body_row").append(newRow)
-    }
-
-    function remove_row_with_data(get_this,id) {
-
+    function getRooms(roomTypeId) {
         $.ajax({
-            type: "GET",
-            url: "{{URL::to('admin/room/delete_room_images/')}}"+"/"+id,// where you wanna post
-            data: {
-                'id':''
+            url: "{{URL::to('admin/booking/get-rooms')}}", // Adjust this URL to your route
+            type: 'GET',
+            data: { room_type: roomTypeId },
+            success: function(response) {
+                var roomSelect = $('#room_id');
+                roomSelect.empty();
+                roomSelect.append('<option value="">-- Select Room --</option>');
+                $.each(response.rooms, function(key, room) {
+                    roomSelect.append('<option value="' + room.id + '">' + room.room_name + '</option>');
+                });
             },
-            error: function(jqXHR, textStatus, errorMessage) {
-                console.log(errorMessage); // Optional
-            },
-            success: function(data) {
-               
-            } 
+            error: function(xhr) {
+                console.error(xhr.responseText);
+            }
         });
-
-        $(get_this).closest('tr').remove();
-
-
     }
 
 </script>

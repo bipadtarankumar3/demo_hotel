@@ -28,6 +28,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
 
     Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
         Route::get('list', [UserManagementController::class, 'userList']);
+        Route::get('add-user', [UserManagementController::class, 'UpdateOrAdd']);
+        Route::post('submit-user', [UserManagementController::class, 'userUpdateOrAdd']);
+        // Edit or add a room type
+        Route::get('edit_user/{id?}', [UserManagementController::class, 'userEdit'])->name('userEdit');
+        // Update or add a room type
+        Route::post('update/{id?}', [UserManagementController::class, 'userUpdateOrAdd'])->name('userUpdateOrAdd');
+        // Delete a room type
+        Route::get('delete_user/{id}', [UserManagementController::class, 'userDelete'])->name('userDelete');
+
     });
     Route::group(['prefix' => 'vendor', 'as' => 'vendor.'], function () {
         Route::get('list', [VendorController::class, 'vendorList']);
@@ -131,6 +140,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         Route::get('delete_room/{id}', [RoomController::class, 'deleteRoom'])->name('room.delete');
 
         Route::get('avalibility', [RoomController::class, 'roomAvalibility']);
+        Route::get('fetchEvents', [RoomController::class, 'fetchEvents']);
     });
 
     Route::group(['prefix' => 'experiance', 'as' => 'experiance.'], function () {
@@ -182,6 +192,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         Route::post('update/{id?}', [BookingController::class, 'bookingUpdateOrAdd'])->name('bookingUpdateOrAdd');
         // Delete a room type
         Route::get('delete_booking/{id}', [BookingController::class, 'bookingDelete'])->name('bookingDelete');
+        Route::get('get-rooms', [BookingController::class, 'getRooms']);
 
        
     });

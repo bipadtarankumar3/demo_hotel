@@ -15,7 +15,7 @@
                     {{-- <h5 class="card-header">Publish</h5> --}}
                     <div class="card-body">
                         <div class="float-right my-2 text-right" style="text-align: right">
-                            <a href="{{URL::to('admin/order/add-booking')}}"><button type="button" class="btn btn-warning">Add booking</button></a>
+                            <a href="{{URL::to('admin/booking/add-booking')}}"><button type="button" class="btn btn-warning">Add booking</button></a>
                          
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -25,6 +25,7 @@
                                         <th>ID</th>
                                         <th>Action</th>
                                         <th>Customer</th>
+                                        <th>Room Type</th>
                                         <th>Room</th>
                                         <th>Price</th>
                                         <th>Check In </th>
@@ -41,11 +42,12 @@
                                         <tr>
                                             <td>{{ $booking->id }}</td>
                                             <td>
-                                                <a href="{{ URL::to('admin/order/edit_booking', $booking->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="{{ URL::to('admin/order/delete_booking', $booking->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
+                                                <a href="{{ URL::to('admin/booking/edit_booking', $booking->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a href="{{ URL::to('admin/booking/delete_booking', $booking->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                             <td>{{ $booking->name }}</td>
                                             <td>{{ $booking->type }}</td>
+                                            <td>{{ $booking->room_name }}</td>
                                             <td>{{ $booking->price }}</td>
                                             <td>{{ $booking->checkin_date }}</td>
                                             <td>{{ $booking->checkout_date }}</td>

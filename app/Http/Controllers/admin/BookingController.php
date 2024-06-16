@@ -20,7 +20,7 @@ class BookingController extends Controller
     public function list()
     {
         $data['title'] = 'List';
-        $data['bookings'] = Booking::select('bookings.*','users.name','room_types.type')
+        $data['bookings'] = Booking::select('bookings.*','rooms.room_name','users.name','room_types.type')
         ->leftJoin('users','users.id','bookings.customer_id')
         ->leftJoin('room_types','room_types.id','bookings.room_type')
         ->leftJoin('rooms','rooms.id','bookings.room_id')
@@ -34,7 +34,7 @@ class BookingController extends Controller
     {
         $data['title'] = 'Add New Booking';
         $data['users'] = User::where('user_type','customer')->get();
-        $data['roomTypes'] = RoomType::get();
+        $data['roomTypes'] = RoomType::where('status','publish')->get();
         $data['Room'] = Room::get();
 
         // dd($data['booking']);
@@ -47,9 +47,10 @@ class BookingController extends Controller
     {
         $data['title'] = $id ? 'Edit Room Thali' : 'Add New Room Thali';
         $data['users'] = User::where('user_type','customer')->get();
-        $data['roomTypes'] = RoomType::get();
-        $data['Room'] = Room::get();
-        $data['booking'] = $id ? Booking::find($id) : null;
+        $data['roomTypes'] = RoomType::where('status','publish')->get();
+        $data['booking']  = $booking = $id ? Booking::find($id) : null;
+        $data['Rooms'] = Room::where('room_type',$booking->room_type)->get();
+        
 
         // dd($data['booking']);
 
@@ -93,6 +94,13 @@ class BookingController extends Controller
         return redirect()->back();
     }
 
+    public function getRooms(Request $request) {
+        $roomTypeId = $request->input('room_type');
+        $rooms = Room::where('room_type', $roomTypeId)->get();
+    
+        return response()->json(['rooms' => $rooms]);
+    }
+
     // Delete a specific Room Thali
     public function bookingDelete(Request $request, $id)
     {
@@ -107,4 +115,7 @@ class BookingController extends Controller
         $request->session()->flash('success', $message);
         return redirect()->back();
     }
+
+
+
 }

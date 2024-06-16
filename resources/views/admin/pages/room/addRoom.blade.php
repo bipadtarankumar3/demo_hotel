@@ -15,13 +15,22 @@
                     <h5 class="card-header">{{ isset($room) ? 'Edit Room' : 'Add Room' }}</h5>
                     <div class="card-body">
                         <div class="form-floating form-floating-outline mb-4">
-                            <select name="room_type" id="room_type" class="form-control">
+                            <select name="room_type" id="room_type" class="form-control" required>
                                 <option value="">-- Select Room Type --</option>
                                 @foreach ($roomTypes as $item)
                                     <option value="{{ $item->id }}" {{ isset($room) && $room->room_type == $item->id ? 'selected' : '' }}>{{ $item->type }}</option>
                                 @endforeach
                             </select>
                             <label for="basic-default-name">Room Type</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input type="text"  value="{{ isset($room) ? $room->room_name : '' }}" name="room_name" class="form-control" id="room_name" placeholder="Room Name" {{ isset($room) ? '' : 'required' }}>
+                                    <label for="room_name"> Room Name</label>
+                                    
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -35,7 +44,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="washroom" class="form-control" id="washroom" placeholder="Washroom" {{ isset($room) ? '' : 'required' }}>
+                                    <input type="file" name="washroom" class="form-control" id="washroom" placeholder="Washroom" >
                                     <label for="washroom">Washroom</label>
                                     @if(isset($room) && $room->washroom)
                                         <img src="{{ URL::to('public/'.$room->washroom) }}" alt="Feature Image" width="100">
@@ -47,7 +56,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="kitchen" class="form-control" id="kitchen" placeholder="Kitchen" {{ isset($room) ? '' : 'required' }}>
+                                    <input type="file" name="kitchen" class="form-control" id="kitchen" placeholder="Kitchen" >
                                     <label for="kitchen">Kitchen</label>
                                     @if(isset($room) && $room->kitchen)
                                         <img src="{{ URL::to('public/'.$room->kitchen) }}" alt="Feature Image" width="100">
@@ -56,7 +65,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="balcony" class="form-control" id="balcony" placeholder="Balcony" {{ isset($room) ? '' : 'required' }}>
+                                    <input type="file" name="balcony" class="form-control" id="balcony" placeholder="Balcony" >
                                     <label for="balcony">Balcony</label>
                                     @if(isset($room) && $room->balcony)
                                         <img src="{{ URL::to('public/'.$room->balcony) }}" alt="Feature Image" width="100">
@@ -185,12 +194,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="text" name="import_url" class="form-control" value="{{ isset($room) ? $room->import_url : '' }}">
-                                    <label for="basic-default-name">Import Url</label>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-12">
                                 <div class="form-floating form-floating-outline mb-4">
                                     <select class="form-select" name="status" id="bs-validation-country">
