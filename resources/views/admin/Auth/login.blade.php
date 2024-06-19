@@ -89,7 +89,8 @@
         <!-- /Logo -->
 
         <div class="card-body mt-2">
-          <h4 class="mb-2 text-center">Admin Login</h4>
+          <h2 class="mb-2 text-center">PODDAR SEVA SADAN</h2>
+          <h5 class="mb-2 text-center">Admin Login</h5>
           {{-- <p class="mb-4">Please sign-in to your account and start the adventure</p> --}}
 
           <form id="formAuthentication" class="mb-3" action="{{URL::To('admin-login-action')}}" method="post">

@@ -18,13 +18,6 @@
                                 <label for="type">Type</label>
                             </div>
                         
-                            <div class="form-floating form-floating-outline mb-4">
-                                <select name="status" class="form-select" id="status" required>
-                                    <option value="publish" {{ old('status', isset($roomType) && $roomType->status == 'publish' ? 'selected' : '') }}>Publish</option>
-                                    <option value="draft" {{ old('status', isset($roomType) && $roomType->status == 'draft' ? 'selected' : '') }}>Draft</option>
-                                </select>
-                                <label for="status">Status</label>
-                            </div>
                         
                             <button class="btn btn-primary mt-2" type="submit">{{ isset($roomType) ? 'Update' : 'Add New' }}</button>
                         </form>
@@ -41,8 +34,6 @@
                                     <tr class="text-nowrap">
                                         <th>#</th>
                                         <th>Type</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -51,8 +42,6 @@
                                         <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
                                             <td>{{ $roomType->type }}</td>
-                                            <td style="color: {{ $roomType->status == 'publish' ? 'green' : 'red' }}">{{ $roomType->status }}</td>
-                                            <td>{{ $roomType->created_at->format('d/m/Y') }}</td>
                                             <td>
                                                 <a href="{{ URL::to('admin/room/type/edit', $roomType->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="{{ URL::to('admin/room/type/delete', $roomType->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>

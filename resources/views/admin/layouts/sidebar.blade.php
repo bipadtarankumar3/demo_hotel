@@ -24,14 +24,12 @@
                 <div>Dashboard</div>
             </a>
         </li>
-        <li class="menu-item ">
+        {{-- <li class="menu-item ">
             <a href="{{URL::to('admin/user/list')}}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-outline"></i>
                 <div>Customer Management</div>
             </a>
-
-
-        </li>
+        </li> --}}
 
 
 
@@ -119,15 +117,15 @@
         <li class="menu-item ">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <span class="mdi mdi-office-building-marker-outline mdi-24px"></span>
-                <div>Products</div>
+                <div>Restaurant </div>
             </a>
 
             <ul class="menu-sub">
                 
             
                 <li class="menu-item ">
-                    <a href="{{URL::to('admin/bottlethali/list')}}" class="menu-link">
-                        <div>Bottle Thali</div>
+                    <a href="{{URL::to('admin/products/list')}}" class="menu-link">
+                        <div>Products</div>
                     </a>
                 </li>
             
@@ -141,7 +139,7 @@
         </li>
  
         <li class="menu-item ">
-            <a href="icons/icons-mdi.html" class="menu-link">
+            <a href="{{URL::to('admin/invoice/list')}}" class="menu-link">
                 <span class="mdi mdi-file-chart  mdi-24px"></span>
                 <div>Invoice</div>
             </a>

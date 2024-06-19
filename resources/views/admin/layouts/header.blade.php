@@ -16,12 +16,14 @@
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
-
+        <h2 style="margin: 0px">PODDAR SEVA SADAN</h2>
         <!-- /Search -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
           <!-- Place this tag where you want the button to render. -->
-         
+         <li>
+          
+         </li>
 
           <!-- User -->
           <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -40,7 +42,7 @@
                       </div>
                     </div>
                     <div class="flex-grow-1">
-                      <h6 class="mb-0">John Doe</h6>
+                      {{-- <h6 class="mb-0">John Doe</h6> --}}
                       <small class="text-muted">Admin</small>
                     </div>
                   </div>

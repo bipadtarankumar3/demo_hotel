@@ -27,10 +27,7 @@
                                         <th>Action</th>
                                         <th>Room Type</th>
                                         <th>Room Name</th>
-                                        <th>Bedrooms</th>
-                                        <th>Washrooms</th>
-                                        <th>Kitchen</th>
-                                        <th>Balcony</th>
+                                        
                                         <th>Feature Image</th>
                                         <th>Price</th>
                                         <th>No of Rooms</th>
@@ -40,7 +37,6 @@
                                         <th>Max Adults</th>
                                         <th>Max Children</th>
                                         <th>Room Amenities</th>
-                                        <th>Import URL</th>
                                         <th>Status</th>
                                         <th>Added By</th>
                                         <th>Created At</th>
@@ -55,12 +51,8 @@
                                                 <a href="{{ URL::to('admin/room/edit_room', $room->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="{{ URL::to('admin/room/delete_room', $room->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
                                             </td>
-                                            <td>{{ $room->room_type }}</td>
+                                            <td>{{ $room->type }}</td>
                                             <td>{{ $room->room_name}}</td>
-                                            <td><img src="{{ URL::to('public/'.$room->bed_room) }}" alt="Feature Image" width="50"></td>
-                                            <td><img src="{{ URL::to('public/'.$room->washroom) }}" alt="Feature Image" width="50"></td>
-                                            <td><img src="{{ URL::to('public/'.$room->kitchen) }}" alt="Feature Image" width="50"></td>
-                                            <td><img src="{{ URL::to('public/'.$room->balcony) }}" alt="Feature Image" width="50"></td>
                                             <td><img src="{{ URL::to('public/'.$room->feature_image) }}" alt="Feature Image" width="50"></td>
                                             <td>{{ $room->price }}</td>
                                             <td>{{ $room->no_of_rooms }}</td>
@@ -70,7 +62,6 @@
                                             <td>{{ $room->max_adults }}</td>
                                             <td>{{ $room->max_children }}</td>
                                             <td>{{ $room->room_amenities }}</td>
-                                            <td>{{ $room->import_url }}</td>
                                             <td>{{ $room->status }}</td>
                                             <td>{{ $room->added_by }}</td>
                                             <td>{{ $room->created_at }}</td>

@@ -12,35 +12,35 @@ use App\Models\BottleThali;
 
 class BottleThaliController extends Controller
 {
-    // List all Room Thalis
+    // List all Products
     public function list()
     {
         $data['title'] = 'List';
-        $data['bottlethalis'] = BottleThali::where('created_by',Auth::user()->id)->get();
+        $data['products'] = BottleThali::where('created_by',Auth::user()->id)->get();
         return view('admin.pages.bottlethali.bottlethali', $data);
     }
 
-    // Edit a specific Room Thali or add a new one
+    // Edit a specific Product or add a new one
     public function bottlethaliEdit($id = null)
     {
-        $data['title'] = $id ? 'Edit Room Thali' : 'Add New Room Thali';
-        $data['bottlethalis'] = BottleThali::where('created_by',Auth::user()->id)->get();
-        $data['bottlethali'] = $id ? BottleThali::find($id) : null;
+        $data['title'] = $id ? 'Edit Product' : 'Add New Product';
+        $data['products'] = BottleThali::where('created_by',Auth::user()->id)->get();
+        $data['product'] = $id ? BottleThali::find($id) : null;
 
         // dd($data['bottlethali']);
 
         return view('admin.pages.bottlethali.bottlethali', $data);
     }
 
-    // Update or add a new Room Thali
+    // Update or add a new Product
     public function bottlethaliUpdateOrAdd(Request $request, $id = null)
     {
  
 
         $data = [
-            'type' => $request->type,
             'name' => $request->name,
             'price' => $request->price,
+            'quantity' => $request->quantity,
             'created_by' => Auth::user()->id
         ];
 
@@ -48,28 +48,28 @@ class BottleThaliController extends Controller
             $bottlethali = BottleThali::find($id);
             if ($bottlethali) {
                 $bottlethali->update($data);
-                $message = 'Room Thali updated successfully';
+                $message = 'Product updated successfully';
             } else {
-                $message = 'Room Thali not found';
+                $message = 'Product not found';
             }
         } else {
          BottleThali::create($data);
-            $message = 'Room Thali added successfully';
+            $message = 'Product added successfully';
         }
 
         $request->session()->flash('success', $message);
         return redirect()->back();
     }
 
-    // Delete a specific Room Thali
+    // Delete a specific Product
     public function bottlethaliDelete(Request $request, $id)
     {
         $bottlethali = BottleThali::find($id);
         if ($bottlethali) {
             $bottlethali->delete();
-            $message = 'Room Thali deleted successfully';
+            $message = 'Product deleted successfully';
         } else {
-            $message = 'Room Thali not found';
+            $message = 'Product not found';
         }
 
         $request->session()->flash('success', $message);

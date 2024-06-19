@@ -8,15 +8,11 @@
                 <div class="card">
                     <h4 class="card-header">
                         {{ isset($amenity) ? 'Edit Amenity' : 'Add New Amenity' }}
-                        <a href="https://fontawesome.com/search" target="_blank"><i class="fa-solid fa-link"></i> Icon</a>
                     </h4>
                     <div class="card-body">
                         <form action="{{ isset($amenity) ? URL::to('admin/room/amenity/update/' . $amenity->id) : URL::to('admin/room/amenity/add-action') }}" method="post">
                             @csrf
-                            <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" class="form-control" id="icon" name="icon" value="{{ isset($amenity) ? $amenity->icon : '' }}" required>
-                                <label for="icon">Icon</label>
-                            </div>
+                           
                             <div class="form-floating form-floating-outline mb-4">
                                 <input type="text" class="form-control" id="amenities_name" name="amenities_name" value="{{ isset($amenity) ? $amenity->name : '' }}" required>
                                 <label for="amenities_name">Amenities Name</label>
@@ -34,10 +30,7 @@
                                 <thead>
                                     <tr class="text-nowrap">
                                         <th>#</th>
-                                        <th>Icon</th>
                                         <th>Name</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -45,10 +38,7 @@
                                     @foreach ($amenities as $key => $amenity)
                                         <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
-                                            <td>{!! $amenity->icon !!}</td>
                                             <td>{{ $amenity->name }}</td>
-                                            <td style="color: {{ $amenity->status == 'publish' ? 'green' : 'red' }}">{{ $amenity->status }}</td>
-                                            <td>{{ $amenity->created_at->format('d/m/Y') }}</td>
                                             <td>
                                                 <a href="{{ URL::to('admin/room/amenity/edit', $amenity->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="{{ URL::to('admin/room/amenity/delete', $amenity->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>

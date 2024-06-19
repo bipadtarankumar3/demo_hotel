@@ -36,12 +36,10 @@ class RoomController extends Controller
     public function updateOrAddAmenity(Request $request, $id = null)
     {
         $validatedData = $request->validate([
-            'icon' => 'required|string|max:255',
-            'amenities_name' => 'required|string|max:255'
+            'amenities_name' => 'required|string'
         ]);
 
         $data = [
-            'icon' => $validatedData['icon'],
             'name' => $validatedData['amenities_name'],
             'user_id' => Auth::user()->id,
             'status' => 'publish' // Assuming default status is 'publish'
@@ -99,13 +97,11 @@ class RoomController extends Controller
     public function roomTypeUpdateOrAdd(Request $request, $id = null)
     {
         $validatedData = $request->validate([
-            'type' => 'required|string|max:255',
-            'status' => 'required|string|max:255'
+            'type' => 'required|string|max:255'
         ]);
 
         $data = [
             'type' => $validatedData['type'],
-            'status' => $validatedData['status'],
             'user_id' => Auth::user()->id
         ];
 
@@ -144,7 +140,10 @@ class RoomController extends Controller
     public function roomList()
     {
         $data['title'] = 'Room Management';
-        $data['rooms'] = Room::where('user_id',Auth::user()->id)->get();
+        $data['rooms'] = Room::select('rooms.*','room_types.type')
+        ->leftJoin('room_types','room_types.id','rooms.room_type')
+        ->where('rooms.user_id',Auth::user()->id)
+        ->get();
         return view('admin.pages.room.list', $data);
     }
     public function addRoom()
@@ -193,45 +192,6 @@ class RoomController extends Controller
 
         $id = $room->id;
 
-        if ($request->hasFile('bed_room')) {
-            $thumbnail = $request->file('bed_room');
-            $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
-            $bed_room = '/upload/bed_room/' . $thumbnailName; // Adjust path as needed
-            $thumbnail->move(public_path('upload/bed_room'), $thumbnailName);
-            Room::where('id',$id)->update([
-                'bed_room' => $bed_room,
-            ]);
-        }
-
-        if ($request->hasFile('washroom')) {
-            $thumbnail = $request->file('washroom');
-            $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
-            $washroom = '/upload/washroom/' . $thumbnailName; // Adjust path as needed
-            $thumbnail->move(public_path('upload/washroom'), $thumbnailName);
-            Room::where('id',$id)->update([
-                'washroom' => $washroom,
-            ]);
-        }
-
-        if ($request->hasFile('kitchen')) {
-            $thumbnail = $request->file('kitchen');
-            $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
-            $kitchen = '/upload/kitchen/' . $thumbnailName; // Adjust path as needed
-            $thumbnail->move(public_path('upload/kitchen'), $thumbnailName);
-            Room::where('id',$id)->update([
-                'kitchen' => $kitchen,
-            ]);
-        }
-
-        if ($request->hasFile('balcony')) {
-            $thumbnail = $request->file('balcony');
-            $thumbnailName = Str::uuid() . '_' . $thumbnail->getClientOriginalName(); // Unique filename
-            $balcony = '/upload/balcony/' . $thumbnailName; // Adjust path as needed
-            $thumbnail->move(public_path('upload/balcony'), $thumbnailName);
-            Room::where('id',$id)->update([
-                'balcony' => $balcony,
-            ]);
-        }
 
 
         if ($request->hasFile('feature_image')) {
@@ -243,38 +203,6 @@ class RoomController extends Controller
                 'feature_image' => $feature_image,
             ]);
         }
-
-        $document = $request->document;
-        $document_text_name = $request->document_text_name;
-        if ( $document != null) {
-        
-            $uploadSuccess = true;
-            foreach ($document as $key=> $file) {
-                if ($file && $file->isValid()) {
-                    $milisecond = round(microtime(true) * 1000);
-                    $name = $file->getClientOriginalName();
-                    $actual_name = str_replace(" ", "_", $name);
-                    $uploadName = $milisecond . "_" . $actual_name;
-                    $file->move(public_path('upload'), $uploadName);
-        
-                    $documentData[] = [
-                        'image_name' => $uploadName,
-                        'table_name' => 'rooms',
-                        'item_id' => $id,
-                        'text_name' => isset($document_text_name[$key])?$document_text_name[$key]:'',
-                    ];
-                } else {
-                    // If any file is invalid, set $uploadSuccess to false
-                    $uploadSuccess = false;
-                }
-            }
-        
-            // Insert all document data into the database in one go
-            if ($uploadSuccess) {
-                Documents::insert($documentData);
-            }
-        }
-
         
         $request->session()->flash('success', 'Addes success');
         return redirect()->back();

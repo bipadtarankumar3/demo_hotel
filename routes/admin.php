@@ -16,6 +16,7 @@ use App\Http\Controllers\admin\EnquiryController;
 use App\Http\Controllers\admin\BottleThaliController;
 use App\Http\Controllers\admin\BookingController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\InvoiceController;
 
 Route::get('login', [AdminAuthController::class, 'login'])->name('login');
 Route::post('admin-login-action', [AdminAuthController::class, 'adminLoginAction']);
@@ -143,27 +144,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         Route::get('fetchEvents', [RoomController::class, 'fetchEvents']);
     });
 
-    Route::group(['prefix' => 'experiance', 'as' => 'experiance.'], function () {
-        Route::get('list', [ExperianceController::class, 'experianceList']);
-        Route::get('add-new-tour', [ExperianceController::class, 'addNewTour']);
-        Route::post('submit-tour-form', [ExperianceController::class, 'submit_tour_form']);
-
-
-        Route::get('category', [ExperianceController::class, 'category']);
-        Route::post('category/add-action-category', [ExperianceController::class, 'categoryAddAction']);
-        Route::get('category/edit/{id}', [ExperianceController::class, 'categoryEdit']);
-        Route::get('category/delete/{id}', [ExperianceController::class, 'categoryDelete']);
-
-
-        Route::get('attributes', [ExperianceController::class, 'attributes']);
-        Route::post('attribute/add-action-attribute', [ExperianceController::class, 'attributeAddAction']);
-        Route::get('attribute/edit/{id}', [ExperianceController::class, 'attributeEdit']);
-        Route::get('attribute/delete/{id}', [ExperianceController::class, 'attributeDelete']);
-       
-    });
-
     
-    Route::group(['prefix' => 'bottlethali', 'as' => 'bottlethali.'], function () {
+    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
        
         // List all room types
         Route::get('list', [BottleThaliController::class, 'list'])->name('list');
@@ -211,6 +193,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         Route::get('delete_order/{id}', [OrderController::class, 'orderDelete'])->name('orderDelete');
         Route::get('get-products/{id}', [OrderController::class, 'get_products']);
        
+    });
+
+    Route::group(['prefix' => 'invoice', 'as' => 'invoice.'], function () {
+       
+        // List all room types
+        Route::get('list', [InvoiceController::class, 'list']);
+
     });
 
 });

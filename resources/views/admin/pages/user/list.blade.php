@@ -7,7 +7,7 @@
 
 </h6>
 <div class="card">
-    <h5 class="card-header">User List</h5>
+    <h5 class="card-header">Customer List</h5>
     <div class="card-body">
       <div class="float-right my-2 text-right" style="text-align: right">
         <a href="{{URL::to('admin/user/add-user')}}"><button type="button" class="btn btn-warning">Add</button></a>

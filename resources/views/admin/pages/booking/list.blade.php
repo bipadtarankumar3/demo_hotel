@@ -30,7 +30,8 @@
                                         <th>Price</th>
                                         <th>Check In </th>
                                         <th>Check Out</th>
-                                        <th>Payment Type</th>
+                                        <th>Payment Status</th>
+                                        <th>Payment Mode</th>
                                         <th>Due amount</th>
                                         {{-- <th>Added By</th> --}}
                                         <th>Created At</th>
@@ -52,6 +53,7 @@
                                             <td>{{ $booking->checkin_date }}</td>
                                             <td>{{ $booking->checkout_date }}</td>
                                             <td>{{ $booking->payment_type }}</td>
+                                            <td>{{ $booking->payment_mode }}</td>
                                             <td>{{ $booking->due_amount }}</td>
                                             {{-- <td>{{ $booking->created_by }}</td> --}}
                                             <td>{{ $booking->created_at }}</td>

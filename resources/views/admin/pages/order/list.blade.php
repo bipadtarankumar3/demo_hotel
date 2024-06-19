@@ -25,16 +25,12 @@
                                         <th>ID</th>
                                         <th>Action</th>
                                         <th>Date</th>
-                                        <th>Bottle</th>
-                                        <th>Bottle Price</th>
-                                        <th>Bottle Quantity</th>
-                                        <th>Bottle Total</th>
-                                        <th>Thali</th>
-                                        <th>Thali Price</th>
-                                        <th>Thali Quantity</th>
-                                        <th>Thali Total</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
                                         <th>Sub Total</th>
-                                        <th>Bottle Minus Price</th>
                                         <th>Grand Total</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
@@ -49,16 +45,12 @@
                                                 <a href="{{ URL::to('admin/order/delete_order', $order->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                             <td>{{ $order->date }}</td>
-                                            <td>{{ $order->bottle_name }}</td>
-                                            <td>{{ $order->bottle_price }}</td>
-                                            <td>{{ $order->bottle_quantity }}</td>
-                                            <td>{{ $order->bottle_total }}</td>
-                                            <td>{{ $order->thali_name }}</td>
-                                            <td>{{ $order->thali_price }}</td>
-                                            <td>{{ $order->thali_quantity }}</td>
-                                            <td>{{ $order->thali_total }}</td>
+                                            <td>{{ $order->customer_name }}</td>
+                                            <td>{{ $order->product_name}}</td>
+                                            <td>{{ $order->price }}</td>
+                                            <td>{{ $order->quantity }}</td>
+                                            <td>{{ $order->total }}</td>
                                             <td>{{ $order->sub_total }}</td>
-                                            <td>{{ $order->bottle_minus_price }}</td>
                                             <td>{{ $order->grand_total }}</td>
                                             <td>{{ $order->created_at }}</td>
                                             <td>{{ $order->updated_at }}</td>

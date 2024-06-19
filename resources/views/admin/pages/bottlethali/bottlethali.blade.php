@@ -7,29 +7,27 @@
             <div class="col-md-5">
                 <div class="card">
                     <h4 class="card-header">
-                        {{ isset($bottlethali) ? 'Edit Room Type' : 'Add New Room Type' }}
+                        {{ isset($product) ? 'Edit Product' : 'Add New Product' }}
                     </h4>
                     <div class="card-body">
-                        <form action="{{ isset($bottlethali) ? URL::to('admin/bottlethali/update/' . $bottlethali->id) : URL::to('admin/bottlethali/add-action') }}" method="post">
+                        <form action="{{ isset($product) ? URL::to('admin/products/update/' . $product->id) : URL::to('admin/products/add-action') }}" method="post">
                             @csrf
                             
+                            
                             <div class="form-floating form-floating-outline mb-4">
-                                <select name="type" class="form-select" id="type" required>
-                                    <option value="bottle" {{ old('type', isset($bottlethali) && $bottlethali->type == 'bottle' ? 'selected' : '') }}>bottle</option>
-                                    <option value="thali" {{ old('type', isset($bottlethali) && $bottlethali->type == 'thali' ? 'selected' : '') }}>thali</option>
-                                </select>
-                                <label for="status">Type</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', isset($product) ? $product->name : '') }}" required>
+                                <label for="name">Name</label>
                             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', isset($bottlethali) ? $bottlethali->name : '') }}" required>
-                                <label for="name">name</label>
+                                <input type="number" class="form-control" id="price" name="price" value="{{ old('price', isset($product) ? $product->price : '') }}" required>
+                                <label for="price">Price</label>
                             </div>
                             <div class="form-floating form-floating-outline mb-4">
-                                <input type="number" class="form-control" id="price" name="price" value="{{ old('price', isset($bottlethali) ? $bottlethali->price : '') }}" required>
-                                <label for="price">price</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" value="{{ old('quantity', isset($product) ? $product->quantity : '') }}" required>
+                                <label for="quantity">Quantity</label>
                             </div>
                         
-                            <button class="btn btn-primary mt-2" type="submit">{{ isset($bottlethali) ? 'Update' : 'Add New' }}</button>
+                            <button class="btn btn-primary mt-2" type="submit">{{ isset($product) ? 'Update' : 'Add New' }}</button>
                         </form>
                         
                     </div>
@@ -43,22 +41,22 @@
                                 <thead>
                                     <tr class="text-nowrap">
                                         <th>#</th>
-                                        <th>Type</th>
                                         <th>Name</th>
+                                        <th>Quantity</th>
                                         <th>Price</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    @foreach ($bottlethalis as $key => $bottlethali)
+                                    @foreach ($products as $key => $product)
                                         <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
-                                            <td>{{ $bottlethali->type }}</td>
-                                            <td>{{ $bottlethali->name }}</td>
-                                            <td>{{ $bottlethali->price }}</td>
+                                            <td>{{ $product->name }}</td>
+                                            <td>{{ $product->quantity }}</td>
+                                            <td>{{ $product->price }}</td>
                                             <td>
-                                                <a href="{{ URL::to('admin/bottlethali/edit', $bottlethali->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="{{ URL::to('admin/bottlethali/delete', $bottlethali->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
+                                                <a href="{{ URL::to('admin/products/edit', $product->id) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                                <a href="{{ URL::to('admin/products/delete', $product->id) }}" onclick="deleteConfirmationGet(event)"><i class="fa-solid fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

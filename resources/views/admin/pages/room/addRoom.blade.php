@@ -32,92 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="bed_room" class="form-control" id="bed_room" placeholder="Bed Room" {{ isset($room) ? '' : 'required' }}>
-                                    <label for="bed_room">Bed Room</label>
-                                    @if(isset($room) && $room->bed_room)
-                                        <img src="{{ URL::to('public/'.$room->bed_room) }}" alt="Feature Image" width="100">
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="washroom" class="form-control" id="washroom" placeholder="Washroom" >
-                                    <label for="washroom">Washroom</label>
-                                    @if(isset($room) && $room->washroom)
-                                        <img src="{{ URL::to('public/'.$room->washroom) }}" alt="Feature Image" width="100">
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="kitchen" class="form-control" id="kitchen" placeholder="Kitchen" >
-                                    <label for="kitchen">Kitchen</label>
-                                    @if(isset($room) && $room->kitchen)
-                                        <img src="{{ URL::to('public/'.$room->kitchen) }}" alt="Feature Image" width="100">
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <input type="file" name="balcony" class="form-control" id="balcony" placeholder="Balcony" >
-                                    <label for="balcony">Balcony</label>
-                                    @if(isset($room) && $room->balcony)
-                                        <img src="{{ URL::to('public/'.$room->balcony) }}" alt="Feature Image" width="100">
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row my-4">
-                            <div class="col-md-12">
-                                <h4>Room Images</h4>
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Image</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table_body_row">
-                                        <!-- Loop through existing images if in edit mode -->
-
-                                        <tr>
-                                            <td><input type="text" name="document_text_name[]" class="form-control" placeholder="Name"></td>
-                                            <td><input type="file" name="document[]" class="form-control"></td>
-                                            <td>
-                                                <button type="button" onclick="add_more_row()" id="#add-more-row" class="btn btn-info waves-effect waves-light"><i class="fa-solid fa-plus"></i></button>
-                                            </td>
-                                        </tr>
-
-                                        @if(isset($room))
-                                            @foreach ($documents as $image)
-                                                <tr>
-                                                    <td>
-                                                        <input type="hidden" name="image_id[]" value="{{ $image->id }}">
-                                                        <input type="text" readonly name="document_text_name_update[]" class="form-control" value="{{ $image->text_name }}">
-                                                    </td>
-                                                    <td>
-                                                       
-                                                        <img src="{{ URL::to('public/upload/'.$image->image_name) }}" alt="Feature Image" width="40">
-                                                      
-                                                    </td>
-                                                    <td>
-                                                        <button onclick="remove_row_with_data(this,'{{$image->id}}')" class="btn btn-danger waves-effect waves-light"><i class="fa-solid fa-trash"></i></button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                      
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                       
                         <!-- Additional form fields, populated with data if in edit mode -->
                         <div class="form-floating form-floating-outline mb-4">
                             <input type="file" name="feature_image" class="form-control" id="basic-default-name" placeholder="Feature Image">
@@ -142,10 +57,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-floating form-floating-outline mb-4">
-                            <input type="text"   value="{{ isset($room) ? $room->minimum_day_stay : '' }}" name="minimum_day_stay"  class="form-control" id="basic-default-name" >
-                            <label for="basic-default-name">Minimum Days Stay Requirments</label>
-                        </div>
+                     
 
                         <div class="row">
                             <div class="col-md-6">
@@ -193,19 +105,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="row">
-                            
-                            <div class="col-md-12">
-                                <div class="form-floating form-floating-outline mb-4">
-                                    <select class="form-select" name="status" id="bs-validation-country">
-                                        <option value="draft" {{ isset($room) && $room->status == 'draft' ? 'selected' : '' }}>Draft</option>
-                                        <option value="publish" {{ isset($room) && $room->status == 'publish' ? 'selected' : '' }}>Publish</option>
-                                    </select>
-                                    <label class="form-label" for="bs-validation-country">Status</label>
-                                </div>
-                            </div>
-                        </div>
-
+                       
                         <div class="row">
                             <div class="col-md-12">
                                 <button class="btn btn-primary mt-2" type="submit">{{ isset($room) ? 'Update' : 'Add New' }}</button>
