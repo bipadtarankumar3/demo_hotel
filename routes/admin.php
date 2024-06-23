@@ -199,6 +199,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
        
         // List all room types
         Route::get('list', [InvoiceController::class, 'list']);
+        Route::get('view/{id}', [InvoiceController::class, 'view']);
 
     });
 
