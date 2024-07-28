@@ -26,6 +26,7 @@
                                         <th>Action</th>
                                         <th>Date</th>
                                         <th>Customer</th>
+                                        <th>Room Number</th>
                                         <th>Product</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
@@ -46,6 +47,7 @@
                                             </td>
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->customer_name }}</td>
+                                            <td>{{ $order->room_no}}</td>
                                             <td>{{ $order->product_name}}</td>
                                             <td>{{ $order->price }}</td>
                                             <td>{{ $order->quantity }}</td>

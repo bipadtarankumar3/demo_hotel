@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\BottleThaliController;
 use App\Http\Controllers\admin\BookingController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\InvoiceController;
+use App\Http\Controllers\admin\ReportController;
 
 Route::get('login', [AdminAuthController::class, 'login'])->name('login');
 Route::post('admin-login-action', [AdminAuthController::class, 'adminLoginAction']);
@@ -192,6 +193,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         // Delete a room type
         Route::get('delete_order/{id}', [OrderController::class, 'orderDelete'])->name('orderDelete');
         Route::get('get-products/{id}', [OrderController::class, 'get_products']);
+
+        Route::get('/get-room-details/{customerId}', [OrderController::class, 'getRoomDetails']);
        
     });
 
@@ -200,6 +203,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['App\Http\
         // List all room types
         Route::get('list', [InvoiceController::class, 'list']);
         Route::get('view/{id}', [InvoiceController::class, 'view']);
+
+    });
+
+    Route::group(['prefix' => 'report', 'as' => 'report.'], function () {
+       
+        // List all room types
+        Route::get('cash_received', [ReportController::class, 'cash_received']);
+        Route::get('online', [ReportController::class, 'online']);
+        Route::get('monthely_room_details', [ReportController::class, 'monthely_room_details']);
+        Route::get('resturant_income', [ReportController::class, 'resturant_income']);
+        Route::get('merriage_income', [ReportController::class, 'merriage_income']);
 
     });
 

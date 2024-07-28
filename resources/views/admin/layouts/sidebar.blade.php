@@ -146,6 +146,45 @@
 
 
         </li>
+
+        <li class="menu-item ">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <span class="mdi mdi-file-chart  mdi-24px"></span>
+                <div>Reports </div>
+            </a>
+
+            <ul class="menu-sub">
+                
+            
+                <li class="menu-item ">
+                    <a href="{{URL::to('admin/report/cash_received')}}" class="menu-link">
+                        <div>Cash Received</div>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a href="{{URL::to('admin/report/online')}}" class="menu-link">
+                        <div>Online</div>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a href="{{URL::to('admin/report/monthely_room_details')}}" class="menu-link">
+                        <div>Monthely Room Details</div>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a href="{{URL::to('admin/report/resturant_income')}}" class="menu-link">
+                        <div>Resturant Income</div>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a href="{{URL::to('admin/report/merriage_income')}}" class="menu-link">
+                        <div>Merriage Income</div>
+                    </a>
+                </li>
+            
+                
+            </ul>
+        </li>
  
         {{-- <li class="menu-item ">
             <a href="icons/icons-mdi.html" class="menu-link">

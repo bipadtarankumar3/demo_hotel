@@ -68,6 +68,8 @@ class OrderController extends Controller
         $data = [
             'date' => $request->date,
             'customer_id' => $request->customer_id,
+            'room_id' => $request->room_id,
+            'room_no' => $request->room_no,
             'item_id' => $request->item_id,
             'price' => $request->price,
             'quantity' => $request->quantity,
@@ -123,6 +125,31 @@ class OrderController extends Controller
     
         return response()->json($products ?? []);
 
+    }
+
+    public function getRoomDetails($customerId)
+    {
+        // Fetch the latest booking for the given customer where check-in is active
+        // echo $customerId;die;
+        $presentDate = date('Y-m-d');
+        $booking = Booking::join('rooms','rooms.id','bookings.room_id')
+            ->where('customer_id', $customerId)
+            ->where('checkin_date', '<=', $presentDate)
+            ->where('checkout_date', '>=', $presentDate)
+            ->orderBy('checkin_date', 'desc')
+            ->first();
+
+        if ($booking) {
+            return response()->json([
+                'room_id' => $booking->room_id,
+                'room_no' => $booking->room_name
+            ]);
+        }
+
+        return response()->json([
+            'room_id' => null,
+            'room_no' => null
+        ]);
     }
 
 }

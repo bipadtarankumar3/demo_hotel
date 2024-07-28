@@ -37,6 +37,18 @@
                                     <label for="basic-default-name">Customer</label>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <select name="booking_type" id="booking_type" class="form-control">
+                                        <option value="">-- Booking Type  --</option>
+                                        <option value="MARRIAGE_BOOKING" {{ isset($booking) && $booking->booking_type == 'MARRIAGE_BOOKING' ? 'selected' : '' }}>MARRIAGE BOOKING</option>
+                                        <option value="OTHER_PARTY_BOOKING" {{ isset($booking) && $booking->booking_type == 'OTHER_PARTY_BOOKING' ? 'selected' : '' }}>OTHER PARTY BOOKING</option>
+                                        <option value="OTHERS" {{ isset($booking) && $booking->booking_type == 'OTHERS' ? 'selected' : '' }}>OTHERS</option>
+                                      
+                                    </select>
+                                    <label for="basic-default-name">Booking Type </label>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="customer_rows" @if(isset($booking) && $booking->customer_type == 'New') @else style="display: none" @endif>
@@ -115,9 +127,12 @@
                                     <div class="form-floating form-floating-outline mb-4">
                                         <select name="doc_id" id="doc_id" class="form-control">
                                             <option value="">--Select ID --</option>
-                                            <option value="Passport" {{ isset($user) && $user->doc_id == 'Passport' ? 'selected' : '' }}>Passport</option>
+                                            <option value="Pan" {{ isset($user) && $user->doc_id == 'Pan' ? 'selected' : '' }}>Pan</option>
+                                            <option value="Aadhar Card" {{ isset($user) && $user->doc_id == 'Aadhar Card' ? 'selected' : '' }}>Aadhar Card</option>
                                             <option value="Driving License" {{ isset($user) && $user->doc_id == 'Driving License' ? 'selected' : '' }}>Driving License</option>
-                                            <option value="Adhar Card" {{ isset($user) && $user->doc_id == 'Adhar Card' ? 'selected' : '' }}>Adhar Card</option>
+                                            <option value="Voter Id" {{ isset($user) && $user->doc_id == 'Voter Id' ? 'selected' : '' }}>Voter Id</option>
+                                            <option value="Other" {{ isset($user) && $user->doc_id == 'Other' ? 'selected' : '' }}>Other</option>
+                                            
                                             
                                         
                                         </select>
@@ -250,6 +265,7 @@
                                     <select name="payment_mode" id="payment_mode" class="form-control">
                                         <option value="">-- Payment Mode  --</option>
                                         <option value="CASH" {{ isset($booking) && $booking->payment_mode == 'CASH' ? 'selected' : '' }}>CASH</option>
+                                        <option value="ONLINE" {{ isset($booking) && $booking->payment_mode == 'ONLINE' ? 'selected' : '' }}>ONLINE</option>
                                         <option value="NEFT" {{ isset($booking) && $booking->payment_mode == 'NEFT' ? 'selected' : '' }}>NEFT</option>
                                         <option value="CHQ" {{ isset($booking) && $booking->payment_mode == 'CHQ' ? 'selected' : '' }}>CHQ</option>
                                         

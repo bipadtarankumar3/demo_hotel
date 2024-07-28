@@ -26,6 +26,21 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="">Customer </label>
+                                        <select name="customer_id" id="customer_id" onchange="getRoomDetails(this.value)" class="form-control">
+                                            <option value="">-- Select Customer --</option>
+                                            @foreach ($users as $item)
+                                                <option value="{{ $item->id }}" {{ isset($order) && $order->customer_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="">Room Number</label>
+                                        <input type="hidden" name="room_id" id="room_id" value="{{ isset($order) ? $order->room_id : '' }}" class="form-control">
+                                        <input type="text" name="room_no" id="room_no" value="{{ isset($order) ? $order->room_no : '' }}" class="form-control">
+                                    </div>
+                                </div>
+                                    <div class="col-md-3">
+                                        <label for="">Customer </label>
                                         <select name="customer_id" id="customer_id" class="form-control">
                                             <option value="">-- Select Customer --</option>
                                             @foreach ($users as $item)
@@ -99,6 +114,26 @@
     
 <script>
    
+   function getRoomDetails(customerId) {
+        if (customerId) {
+            $.ajax({
+                url: "{{URL::to('admin/order/get-room-details/')}}" +'/'+ customerId,
+                type: 'GET',
+                success: function(response) {
+                    // Assuming the response is a JSON object with room_id and room_no
+                    $('#room_id').val(response.room_id);
+                    $('#room_no').val(response.room_no);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching room details:', error);
+                }
+            });
+        } else {
+            // Clear the hidden fields if no customer is selected
+            $('#room_id').val('');
+            $('#room_number').val('');
+        }
+    }
 
    function get_products(select) {
         var selectedOption = select.options[select.selectedIndex];

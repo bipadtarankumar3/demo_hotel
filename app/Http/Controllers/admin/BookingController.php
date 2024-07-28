@@ -67,6 +67,7 @@ class BookingController extends Controller
             $data = [
                 'customer_type' => $request->customer_type,
                 'customer_id' => $request->customer_id,
+                'booking_type' => $request->booking_type,
                 'room_type' => $request->room_type,
                 'room_id' => $request->room_id,
                 'adults' => $request->adults,
@@ -136,6 +137,7 @@ class BookingController extends Controller
             $user->save();
 
             $data = [
+                'booking_type' => $request->booking_type,
                 'customer_type' => $request->customer_type,
                 'customer_id' => $user->id,
                 'room_type' => $request->room_type,
@@ -146,6 +148,7 @@ class BookingController extends Controller
                 'checkin_date' => $request->checkin_date,
                 'checkout_date' => $request->checkout_date,
                 'payment_type' => $request->payment_type,
+                'payment_mode' => $request->payment_mode,
                 'no_of_rooms' => $request->no_of_rooms,
                 'due_amount' => $request->due_amount,
                 'created_by' => Auth::user()->id
