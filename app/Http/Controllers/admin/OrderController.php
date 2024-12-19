@@ -54,6 +54,7 @@ class OrderController extends Controller
         $data['title'] = $id ? 'Edit Order' : 'Add New Order';
         $data['bottle'] = BottleThali::get();
         $data['order'] = $id ? Order::find($id) : null;
+        $data['items'] = OrderItmes::where('order_id', $id)->get();
         $data['users'] = User::where('user_type','customer')->get();
         // dd($data['booking']);
 
@@ -63,17 +64,14 @@ class OrderController extends Controller
     // Update or add a new Order
     public function orderUpdateOrAdd(Request $request, $id = null)
     {
- 
+        
+        // dd($request->all());
 
         $data = [
             'date' => $request->date,
             'customer_id' => $request->customer_id,
             'room_id' => $request->room_id,
             'room_no' => $request->room_no,
-            'item_id' => $request->item_id,
-            'price' => $request->price,
-            'quantity' => $request->quantity,
-            'total' => $request->total,
             'sub_total' => $request->sub_total,
             'grand_total' => $request->grand_total,
             'created_by' => Auth::user()->id
@@ -83,12 +81,54 @@ class OrderController extends Controller
             $Order = Order::find($id);
             if ($Order) {
                 $Order->update($data);
+
+                // Update order items
+            $existingItemIds = [];
+            foreach ($request->item_id as $key => $value) {
+                $itemData = [
+                    'order_id' => $id,
+                    'item_id' => $value,
+                    'price' => $request->price[$key],
+                    'count' => $request->count[$key],
+                    'total' => $request->total[$key],
+                ];
+
+                if (!empty($request->item_ids[$key])) {
+                    // If the item already exists, update it
+                    $item = OrderItmes::find($request->item_ids[$key]);
+                    if ($item) {
+                        $item->update($itemData);
+                        $existingItemIds[] = $item->id;
+                    }
+                } else {
+                    // Otherwise, create a new item
+                    $newItem = OrderItmes::create($itemData);
+                    $existingItemIds[] = $newItem->id;
+                }
+            }
+
+            // Delete items that are no longer in the request
+            OrderItmes::where('order_id', $id)
+                ->whereNotIn('id', $existingItemIds)
+                ->delete();
+
                 $message = 'Order updated successfully';
             } else {
                 $message = 'Order not found';
             }
         } else {
-         Order::create($data);
+            Order::create($data);
+            $items = [];
+            foreach ($request->item_id as $key => $value) {
+                $items [] = array(
+                    'order_id' => Order::latest()->first()->id, 
+                    'item_id' => $value, 
+                    'price' =>$request->price[$key],
+                    'count' => $request->count[$key],
+                    'total' => $request->total[$key],
+                );
+            }
+            OrderItmes::insert($items); 
             $message = 'Order added successfully';
         }
 

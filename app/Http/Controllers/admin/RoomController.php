@@ -183,7 +183,7 @@ class RoomController extends Controller
         $room->max_adults = $request->input('max_adults');
         $room->max_children = $request->input('max_children');
         $room->room_amenities = isset($request->room_amenities)?implode(',',$request->room_amenities):null;
-        $room->status = $request->input('status');
+        $room->status = 'active';
         $room->user_id = Auth::user()->id;
         // Add other fields here
 

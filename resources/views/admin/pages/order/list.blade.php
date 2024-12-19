@@ -27,10 +27,7 @@
                                         <th>Date</th>
                                         <th>Customer</th>
                                         <th>Room Number</th>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
+                                        
                                         <th>Sub Total</th>
                                         <th>Grand Total</th>
                                         <th>Created At</th>
@@ -48,10 +45,7 @@
                                             <td>{{ $order->date }}</td>
                                             <td>{{ $order->customer_name }}</td>
                                             <td>{{ $order->room_no}}</td>
-                                            <td>{{ $order->product_name}}</td>
-                                            <td>{{ $order->price }}</td>
-                                            <td>{{ $order->quantity }}</td>
-                                            <td>{{ $order->total }}</td>
+                                            
                                             <td>{{ $order->sub_total }}</td>
                                             <td>{{ $order->grand_total }}</td>
                                             <td>{{ $order->created_at }}</td>

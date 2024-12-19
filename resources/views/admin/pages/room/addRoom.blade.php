@@ -86,6 +86,17 @@
                                     <label for="basic-default-name">Max Children</label>
                                 </div>
                             </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating form-floating-outline mb-4">
+                                    <input type="text"  value="{{ isset($room) ? $room->minimum_day_stay : '' }}" name="minimum_day_stay"  class="form-control" id="basic-default-name" >
+                                    <label for="basic-default-name">Minimum Day Stay</label>
+                                </div>
+                            </div>
+                            
+                            
                         </div>
 
                         <!-- Repeat for other fields -->

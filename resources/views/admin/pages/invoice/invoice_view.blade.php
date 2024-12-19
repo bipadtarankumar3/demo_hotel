@@ -48,12 +48,22 @@
                                 <div style="height:50px"></div>
                                 <div class="row" style="width: 100%;">
                                     <div class="col-md-2" style="width: 20%">
-                                        <img src="" alt="PODDAR SEVA SADAN">
+
+                                        {{-- <img src="" alt="PODDAR SEVA SADAN"> --}}
+                                        <p style="padding: 0px;margin:0px;">PODDAR SEVA SADAN</p>
                                     </div>
                                     <div class="col-md-10" style="width: 79%">
-                                        <p style="padding: 0px;margin:0px;">PODDAR SEVA SADAN</p>
-                                        <p style="padding: 0px;margin:0px;">Address</p>
-                                        <p style="padding: 0px;margin:0px;">Office Tel : 123456789</p>
+                                        
+                                        <p style="padding: 0px;margin:0px;">Address : <span><small>
+                                            Sikar- Laxmangarh By Pass Road 
+                                        Near Anjani Mata Mandir
+                                        Salasar (Rajasthan)</small></span>
+                                        </p>
+                                        <p style="padding: 0px;margin:0px;">Pin Code : 331506</p>
+                                        <p style="padding: 0px;margin:0px;">Mob  : 9672999509</p>
+                                        <p style="padding: 0px;margin:0px;">  : 9836599969</p>
+                                        <p style="padding: 0px;margin:0px;">Registration No  : DIT (E)/462</p>
+                                        <p style="padding: 0px;margin:0px;">   8E/841/07-08</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -160,7 +170,7 @@
                                                 {{$sub_total }}
                                             </td>
                                         </tr>
-                                        <tr>
+                                        {{-- <tr>
                                             <td colspan="3" style="text-align: right">GST (18%): </td>
                                             <td style="text-align: end">
                                                 @php
@@ -170,12 +180,13 @@
                                                 @endphp
                                                 {{$gst_value}}
                                             </td>
-                                        </tr>
+                                        </tr> --}}
                                         <tr>
                                             <td colspan="3" style="text-align: right">Grand Total: </td>
                                             <td style="text-align: end">
                                                 @php
-                                                     $gst_total = $sub_total + $gst_value;
+                                                    //  $gst_total = $sub_total + $gst_value;
+                                                     $gst_total = $sub_total;
                                                 @endphp
                                                 {{ $gst_total}}
                                             </td>
